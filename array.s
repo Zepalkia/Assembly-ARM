@@ -64,3 +64,27 @@ getArr:
 	popmi	{r1, ip, pc}
 	ldr	r0, [r0]
 	sub	pc, pc, #20
+
+@-------------------------------------------------
+@Perform an argmax (return max value and the pointer to this value from an array)
+@Args:
+@	r0: the array address
+@Results:
+@	r0: pointer to max(array)
+@	r1: max(array)
+@-------------------------------------------------
+argmax:
+	push	{r2, r3, ip, lr}
+	ldr	r1, [r0]		@end of the array
+	add	r0, r0, #4		@skip the size-value
+	sub	r1, r1, #4		@skip the size-value
+	sub	r1, r1, r0
+	lsr	r2, r1, #2		@r2 = loop-counter
+	ldr	r1, [r0]		@r1 = array[0]
+	subs	r2, r2, #1
+	popmi	{r2, r3, ip, pc}
+	add	r0, r0, #4
+	ldr	r3, [r0]
+	cmp	r1, r3
+	movlt	r1, r3
+	sub	pc, pc, #32

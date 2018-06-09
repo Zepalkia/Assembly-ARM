@@ -1,9 +1,16 @@
 @-------------------------------------------------
+@Iterative Merge Sort algorithm
+@Args:
+@	r0, id of the array
+@Results:
+@	The array from [r0] to [r0]+len(array) is now
+@	sorted (from min to max)
+@-------------------------------------------------
 mergeSort:
 	push	{ip, lr}
-	ldr	r9, =#0x22000
-	mov	r0, r9			@r0->start of the memory
-	ldr	r1, [r0]		@r1->end of the array
+	bl	getArr
+	mov	r9, r0			@r0->start of the memory
+	ldr	r1, [r9]		@r1->end of the array
 	mov	r2, #1			@r2 = current size
 	push	{r0, r1}
 	mov	r0, r1
@@ -59,8 +66,7 @@ merge:
 	bl	copyArr			@arr no 1> L
 	mov	r0, #0
 	bl	getArr
-	mov	r6, r2
-	add	r6, r6, #1
+	add	r6, r2, #1
 	add	r0, r0, r6, lsl #2	@r0 = addr+(middle+1)*4
 	mov	r1, r5
 	bl	copyArr
@@ -74,8 +80,7 @@ merge:
 	mov	r0, #2
 	bl	getArr
 	add	r2, r0, #4		@r2 = addr(R[0])
-	mov	r0, #4
-	mul	r9, r0, r8
+	mov	r9, r8, lsl #2
 	add	r9, r9, #4
 	mov	r0, #0
 	bl	getArr
