@@ -6,15 +6,15 @@
 @	Creation of a heap memory from 0x22000 to 0x22000+r0
 @-------------------------------------------------
 .extern sbrk
-.extern brk
 alloc:
 	push	{ip, lr}
 	push	{r0}
 	mov	r0, #0
-	bl	sbrk
+	bl	sbrk			@0x22000 on Raspbian (pi 2)
 	pop	{r0}
-	bl	brk
-	pop	{ip, lr}
+	ldr	r7, =#0x2D		@Only for Unix x86 /!\
+	swi	#0			@Call brk
+	pop	{ip, pc}
 
 @-------------------------------------------------
 @convert hex value to dec value (division by 4)
