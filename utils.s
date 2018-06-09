@@ -17,6 +17,42 @@ alloc:
 	pop	{ip, pc}
 
 @-------------------------------------------------
+@Read chars from stdin until 'return' is pressed
+@Args:
+@	r0: the address of buffer
+@	r1: size of the buffer (nBytes)
+@Results:
+@	r0: number of bytes read
+@	The ascii values are stored from the original r0 until the end of the string
+@-------------------------------------------------
+input:
+	push	{ip, lr}
+	cmp	r1, #0
+	movgt	r2, r1, lsl #2
+	movle	r1, #255
+	lslle	r1, #2
+	mov	r1, r0
+	mov	r0, #0			@0 = stdin
+	mov	r7, #3			@see read(2)
+	swi	#0
+	pop	{ip, pc}
+
+@-------------------------------------------------
+@Write to console an array of ascii char
+@Args:
+@	r0: the address of start
+@	r1: the number of char
+@-------------------------------------------------
+output:
+	push	{ip, lr}
+	mov	r2, r1, lsl #2		@size*sizeof
+	mov	r1, r0
+	mov	r0, #1			@1 = stdout
+	mov	r7, #4			@see write(2)
+	swi	#0
+	pop	{ip, pc}
+
+@-------------------------------------------------
 @convert hex value to dec value (division by 4)
 @Args:
 @	r0: the hex value

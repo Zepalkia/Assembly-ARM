@@ -19,10 +19,10 @@ mergeSort:
 	mov	r3, r0
 	sub	r3, r3, #2		@r3 = size-1 (-2 for padding)
 	pop	{r0, r1}
-D1:	cmp	r2, r3			@if current_size > (size-1)...	     <
+	cmp	r2, r3			@if current_size > (size-1)...	     <
 	popgt	{ip, pc}		@exit				     |
 	mov	r4, #0			@r4 = left idx			     |
-D2:	cmp	r4, r3			@if left_idx >= (size-1)...	<    |
+	cmp	r4, r3			@if left_idx >= (size-1)...	<    |
 	addge	pc, pc,	#52		@exit				| v  |
 	add	r5, r4, r2		@				| |  |
 	sub	r5, r5, #1		@r5 = middle		        | |  |
@@ -30,7 +30,7 @@ D2:	cmp	r4, r3			@if left_idx >= (size-1)...	<    |
 	lsl	r0, r2, #1		@				| |  |
 	sub	r0, r0, #1		@				| |  |
 	add	r0, r0, r4		@				| |  |
-D3:	mov	r1, r3			@				| |  |
+	mov	r1, r3			@				| |  |
 	bl	min			@				| |  |
 	mov	r6, r0			@				| |  |
 	pop	{r0}			@r6 = right idx			| |  |
