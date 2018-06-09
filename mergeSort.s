@@ -1,7 +1,7 @@
 @-------------------------------------------------
 mergeSort:
 	push	{ip, lr}
-	ldr	r9, =#0x21000
+	ldr	r9, =#0x22000
 	mov	r0, r9			@r0->start of the memory
 	ldr	r1, [r0]		@r1->end of the array
 	mov	r2, #1			@r2 = current size
@@ -56,14 +56,14 @@ merge:
 	bl	getArr
 	add	r0, r0, r1, lsl #2	@r0 = addr+left*4
 	mov	r1, r4
-	bl	arrCopy			@arr no 1> L
+	bl	copyArr			@arr no 1> L
 	mov	r0, #0
 	bl	getArr
 	mov	r6, r2
 	add	r6, r6, #1
 	add	r0, r0, r6, lsl #2	@r0 = addr+(middle+1)*4
 	mov	r1, r5
-	bl	arrCopy
+	bl	copyArr
 	pop	{r0, r1}		@arr no2> R
 	mov	r6, #0			@r6 = i
 	mov	r7, #0			@r7 = j

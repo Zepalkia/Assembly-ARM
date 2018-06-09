@@ -1,4 +1,22 @@
 @-------------------------------------------------
+@Initialize some Heap memory
+@Args:
+@	r0: Size to allocate
+@Results:
+@	Creation of a heap memory from 0x22000 to 0x22000+r0
+@-------------------------------------------------
+.extern sbrk
+.extern brk
+alloc:
+	push	{ip, lr}
+	push	{r0}
+	mov	r0, #0
+	bl	sbrk
+	pop	{r0}
+	bl	brk
+	pop	{ip, lr}
+
+@-------------------------------------------------
 @convert hex value to dec value (division by 4)
 @Args:
 @	r0: the hex value
