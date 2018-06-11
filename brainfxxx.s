@@ -1,11 +1,15 @@
 @-------------------------------------------------
-@
+@brainf*** interpreter, execute a code stored as an ascii string
 @Args:
 @	r0: address of start of the code to interprete
-@	r1: length of the code
+@	r1: length of the code (nOp)
 @	r2: length of the tape of cells
 @	r10: pointer to the first cell (see alloc function)
+@Example-program:
+@++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>+++++++++++++++.>.+++.------.--------.<<+.<.
+@This will print "Hello  World!" if passed to this function (nOp = 114)
 @-------------------------------------------------
+
 brainExec:
 	push	{ip, lr}
 	mov	r8, r10			@r8 = first cell
@@ -98,4 +102,11 @@ outV:
 	pop	{r0, r1, r2, r8, r9, r10}
 	b	brf1
 inV:
+	push	{r0, r1, r2, r8, r9, r10}
+	mov	r2, #1
+	mov	r1, r10
+	mov	r0, #0
+	mov	r7, #3
+	swi	#0
+	pop	{r0, r1, r2, r8, r9, r10}
 	b	brf1
