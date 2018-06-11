@@ -9,7 +9,8 @@
 brainExec:
 	push	{ip, lr}
 	mov	r8, r10			@r8 = first cell
-	add	r9, r10, r2, lsl #2	@r9 = last cell		<<<
+	@add	r9, r10, r2, lsl #2	@r9 = last cell		<<<
+	add	r9, r10, r2
 	bl	brfInit
 	add	r1, r0, r1		@r1 = end of the code 
 	cmp	r0, r1
@@ -40,36 +41,36 @@ brfInit:
 	mov	r7, r8
 	cmp	r7, r9
 	popgt	{ip, pc}
-	str	r6, [r7]
-	add	r7, r7, #4
+	strb	r6, [r7]
+	add	r7, r7, #1
 	sub	pc, pc, #24
 
 incP:
-	add	r10, r10, #4
+	add	r10, r10, #1
 	cmp	r10, r9
 	movgt	r10, r8
 	b	brf1
 
 decP:
-	sub	r10, r10, #4
+	sub	r10, r10, #1
 	cmp	r10, r8
 	movlt	r10, r9
 	b	brf1
 
 incV:
-	ldr	r3, [r10]
+	ldrb	r3, [r10]
 	add	r3, r3, #1
-	str	r3, [r10]
+	strb	r3, [r10]
 	b	brf1
 
 decV:
-	ldr	r3, [r10]
+	ldrb	r3, [r10]
 	sub	r3, r3, #1
-	str	r3, [r10]
+	strb	r3, [r10]
 	b	brf1
 
 jumpF:
-	ldr	r3, [r10]
+	ldrb	r3, [r10]
 	cmp	r3, #0
 	bne	brf1
 	add	r0, r0, #1
@@ -78,7 +79,7 @@ jumpF:
 	beq	brf1
 	sub	pc, pc, #24
 jumpB:
-	ldr	r3, [r10]
+	ldrb	r3, [r10]
 	cmp	r3, #0
 	beq	brf1
 	sub	r0, r0, #1
@@ -89,7 +90,7 @@ jumpB:
 
 outV:
 	push	{r0, r1, r2, r8, r9, r10}
-	mov	r2, #4
+	mov	r2, #1
 	mov	r1, r10
 	mov	r0, #1
 	mov	r7, #4
