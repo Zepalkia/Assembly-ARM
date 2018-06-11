@@ -24,3 +24,33 @@ fileOpen:
 	mov	r7, #5
 	swi	#0
 	pop	{ip, pc}
+
+@------------------------------------------------
+@Read a file char by char
+@Args:
+@	r0: pointer to the file
+@	r1: pointer to the memory where to put data
+@------------------------------------------------
+fileRead:
+	push	{ip, lr}
+	mov	r2, #1			@r2 = size (char, 1 byte)
+	mov	r3, #0			@r3 = nChar
+	mov	r4, r1			@r4 = next free memory cell
+	add	r4, r4, #4
+	mov	r7, #3			@r7 = syscall no.
+	push	{r0}
+	swi	#0
+	cmp	r0, #0
+D1:	popeq	{r0, ip, pc}		@exit if EOF
+	add	r3, r3, #1
+	add	r0, r0, #1
+	ldrb	r5, [r1]
+	strb	r5, [r4]
+	add	r4, r4, #1
+	pop	{r0}
+	sub	pc, pc, #48
+
+
+fileWrite:
+	push	{ip, lr}
+	pop	{ip, pc}
