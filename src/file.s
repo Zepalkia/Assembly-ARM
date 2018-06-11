@@ -30,6 +30,9 @@ fileOpen:
 @Args:
 @	r0: pointer to the file
 @	r1: pointer to the memory where to put data
+@Results:
+@	r3: nChar
+@	[old r4]: contains all char from the file
 @------------------------------------------------
 fileRead:
 	push	{ip, lr}
@@ -41,7 +44,7 @@ fileRead:
 	push	{r0}
 	swi	#0
 	cmp	r0, #0
-D1:	popeq	{r0, ip, pc}		@exit if EOF
+	popeq	{r0, ip, pc}		@exit if EOF
 	add	r3, r3, #1
 	add	r0, r0, #1
 	ldrb	r5, [r1]
